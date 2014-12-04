@@ -6,12 +6,18 @@ import java.util.List;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.slf4j.Logger;
+
+import com.king.gis.util.BeanUtil;
+
 public class RoadExt {
+	public static Logger LOGGER = BeanUtil.getLogger(RoadExt.class);
 	static Map map = new Map();
 	static Path path = new Path();
 	static Line line = null;
 	static Point fp = null;
 	static Point tp = null;
+	static double distance = 0.0001;// 扩展距离
 
 	public static void main(String[] args) {
 		//
@@ -33,10 +39,9 @@ public class RoadExt {
 		}
 		map.add(path);
 		JsonConfig config = new JsonConfig();
-		config.setExcludes(new String[] { "enve", "paraA", "paraB", "paraC", });
+		config.setExcludes(new String[] { "enve", "paraA", "paraB", "paraC" });
 		System.out.println(JSONObject.fromObject(path, config));
 		//
-		double distance = 10;
 		List<Point> ring = new ArrayList<Point>();
 		for (Geometry geo : map.getGeos()) {
 			if (geo instanceof Path) {
@@ -207,7 +212,6 @@ public class RoadExt {
 			line = new Line(fp, tp);
 			path.add(line);
 		}
-		double distance = 0.0001;// 扩展距离
 		List<Point> ring = bufferofPath(path, distance);
 		if (ring == null || ring.size() == 0) {
 			return null;
@@ -217,10 +221,17 @@ public class RoadExt {
 		for (int i = 0; i < ring.size(); i++) {
 			temp = ring.get(i);
 			if (temp == null) {
+				LOGGER.info("数据为空，过滤");
+				continue;
+			}
+			if (!BeanUtil.checkDouble(temp.getX())
+					|| !BeanUtil.checkDouble(temp.getY())) {
+				LOGGER.info("数据不正常，过滤");
 				continue;
 			}
 			newTrip.add(temp);
 		}
+		newTrip.add(newTrip.get(0));// 接口缝合
 		return newTrip;
 	}
 }

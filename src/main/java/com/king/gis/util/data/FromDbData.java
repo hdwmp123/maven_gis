@@ -1,4 +1,4 @@
-package com.king.gis.util;
+package com.king.gis.util.data;
 
 import java.sql.Blob;
 import java.sql.ResultSet;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.king.gis.douglas.Point;
+import com.king.gis.util.SqlConnect;
 
 /**
  * @Title: ReadTrack.java
@@ -21,9 +22,9 @@ import com.king.gis.douglas.Point;
  * @date 2014-12-3 下午3:58:44
  * @version V1.0
  */
-public class ReadTrack {
+public class FromDbData extends Data {
 	private static transient final Logger LOGGER = LoggerFactory
-			.getLogger(ReadTrack.class);
+			.getLogger(FromDbData.class);
 
 	/**
 	 * 读取行程数据
@@ -31,13 +32,12 @@ public class ReadTrack {
 	 * @param sql
 	 * @return
 	 */
-	public static List<List<Point>> readTrack(String sql) {
+	public List<Point> getTrip(String sql) {
 		SqlConnect connect = new SqlConnect();
 		connect.query(sql, false);
 		ResultSet resultSet = connect.getResultSet();
 		Blob trackBlob = null;
 		byte[] bytes = null;
-		List<List<Point>> trips = new ArrayList<List<Point>>();
 		List<Point> trip = null;
 		try {
 			while (resultSet.next()) {
@@ -64,45 +64,32 @@ public class ReadTrack {
 				if (trip.size() == 0) {
 					continue;
 				}
-				trips.add(trip);
-			}
-			if (trips.size() == 0) {
-				return null;
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
 			connect.closeAll();
 		}
-		return trips;
+		return trip;
 	}
 
-	public static List<List<com.king.gis.ext.Point>> readTrack2(String sql) {
-		List<List<com.king.gis.ext.Point>> trips = new ArrayList<List<com.king.gis.ext.Point>>();
+	public List<com.king.gis.ext.Point> getTrip2(String sql) {
 		List<com.king.gis.ext.Point> trip = null;
 		com.king.gis.ext.Point point = null;
 		//
-		List<List<Point>> tripsTemp = readTrack(sql);
-		List<Point> tripTemp = null;
+		List<Point> tripTemp = getTrip(sql);
 		Point tempPoint = null;
-		if (tripsTemp == null || tripsTemp.size() == 0) {
+		if (tripTemp == null || tripTemp.size() == 0) {
 			return null;
 		}
-		for (int i = 0; i < tripsTemp.size(); i++) {
-			tripTemp = tripsTemp.get(i);
-			if (tripTemp == null || tripsTemp.size() == 0) {
-				continue;
-			}
-			trip = new ArrayList<com.king.gis.ext.Point>();
-			for (int j = 0; j < tripTemp.size(); j++) {
-				tempPoint = tripTemp.get(j);
-				point = new com.king.gis.ext.Point();
-				point.setX(tempPoint.getX());
-				point.setY(tempPoint.getY());
-				trip.add(point);
-			}
-			trips.add(trip);
+		trip = new ArrayList<com.king.gis.ext.Point>();
+		for (int j = 0; j < tripTemp.size(); j++) {
+			tempPoint = tripTemp.get(j);
+			point = new com.king.gis.ext.Point();
+			point.setX(tempPoint.getX());
+			point.setY(tempPoint.getY());
+			trip.add(point);
 		}
-		return trips;
+		return trip;
 	}
 }

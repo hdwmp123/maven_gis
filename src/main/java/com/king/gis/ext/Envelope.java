@@ -3,11 +3,8 @@ package com.king.gis.ext;
 public class Envelope {
 
 	double up;
-
 	double down;
-
 	double left;
-
 	double right;
 
 	public double getUp() {

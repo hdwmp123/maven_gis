@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Path extends Geometry {
 	protected List<Line> path = new ArrayList<Line>();
-
 	protected Point frompt, topt;
 
 	public List<Line> getPath() {

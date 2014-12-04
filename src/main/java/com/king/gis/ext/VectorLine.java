@@ -3,9 +3,7 @@ package com.king.gis.ext;
 public class VectorLine {
 
 	double paraA;
-
 	double paraB;
-
 	double paraC;
 
 	public double getParaA() {

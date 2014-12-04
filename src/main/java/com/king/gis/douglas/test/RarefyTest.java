@@ -2,20 +2,23 @@ package com.king.gis.douglas.test;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import com.king.gis.douglas.Point;
 import com.king.gis.douglas.Rarefy;
-import com.king.gis.util.ReadTrack;
+import com.king.gis.util.BeanUtil;
+import com.king.gis.util.data.Data;
+import com.king.gis.util.data.StaticData;
 
 public class RarefyTest {
+	public static Logger LOGGER = BeanUtil.getLogger(RarefyTest.class);
+	public static Data data = new StaticData(); 
+	
 	public static void main(String[] args) {
-		String sql = "select a.* from sc_mnt_trip a,(select trip_id,max(length(b.track)) from sc_mnt_trip b group by trip_id order by max(length(b.track)) desc limit 2,1) b where a.trip_id = b.trip_id";
-		List<List<Point>> trips = ReadTrack.readTrack(sql);
-		if (trips == null || trips.size() == 0) {
-			return;
-		}
-		List<Point> trip = trips.get(0);
+		List<Point> trip = data.getTrip(null);
+		LOGGER.info("原始坐标数:" + trip.size());
 		List<Point> newTrip = Rarefy.tripRarefy(trip);
-		newTrip.clear();
+		LOGGER.info("抽稀后坐标数:" + newTrip.size());
 	}
 
 }

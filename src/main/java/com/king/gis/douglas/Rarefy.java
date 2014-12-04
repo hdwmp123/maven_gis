@@ -36,9 +36,9 @@ public class Rarefy {
 		Douglas douglas = new Douglas();
 		for (int index = 2; index < trip.size(); index++) {
 			angle = GeometryUtil.calculateTheAngle(trip, index);
-			if (angle == Double.NaN || angle <= limitAngle) {
+			if (angle.isNaN() || angle <= limitAngle) {
 				// 对拐角前的数据进行抽稀 所以是 从 startIndex到index-1
-				LOGGER.info("开始：" + startIndex + " 结束：" + (index - 1));
+				LOGGER.debug("开始：" + startIndex + " 结束：" + (index - 1));
 				newTrip.addAll(douglas.rarefy(trip, startIndex, index - 1));
 				startIndex = index - 1;
 			}

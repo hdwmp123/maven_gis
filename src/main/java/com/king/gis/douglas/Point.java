@@ -1,5 +1,7 @@
 package com.king.gis.douglas;
 
+import net.sf.json.JSONObject;
+
 /**
  * 
  * @Title: Point.java
@@ -73,6 +75,9 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "x= " + this.x + "  y= " + this.y;
+		JSONObject json = new JSONObject();
+		json.put("x", x);
+		json.put("y", y);
+		return json.toString();
 	}
 }

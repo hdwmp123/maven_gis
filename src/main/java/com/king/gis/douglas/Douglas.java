@@ -122,12 +122,12 @@ public class Douglas {
 	 * @param endIndex
 	 */
 	public void setPoints(List<Point> posList, int startIndex, int endIndex) {
-		Point positionVo;
+		Point point;
 		int index = 0;
 		for (int i = startIndex; i < endIndex; i++) {
-			positionVo = posList.get(i);
-			Point p = new Point(positionVo.getX(), positionVo.getY(), index++);
-			this.points.add(p);
+			point = posList.get(i);
+			point.setIndex(index++);
+			this.points.add(point);
 		}
 	}
 
@@ -146,8 +146,8 @@ public class Douglas {
 		this.points = new ArrayList<Point>();
 		setPoints(posList, startIndex, endIndex);
 		this.totalCount = this.totalCount + this.points.size();
-		LOGGER.info("总和：" + this.totalCount);
-		LOGGER.info("抽稀前：" + this.points.size());
+		LOGGER.debug("总和：" + this.totalCount);
+		LOGGER.debug("抽稀前：" + this.points.size());
 		if (this.points.size() > 1) {
 			compress(this.points.get(0),
 					this.points.get(this.points.size() - 1));
@@ -159,8 +159,8 @@ public class Douglas {
 				returnPosList.add(p);
 			}
 		}
-		LOGGER.info("抽稀后：" + returnPosList.size());
-		LOGGER.info("-------------------------------");
+		LOGGER.debug("抽稀后：" + returnPosList.size());
+		LOGGER.debug("-------------------------------");
 		return returnPosList;
 	}
 
@@ -205,7 +205,7 @@ public class Douglas {
 		for (int i = 0; i < d.points.size(); i++) {
 			Point p = d.points.get(i);
 			if (p.getIndex() > -1) {
-				System.out.println(p.getX() + " " + p.getY() + ",");
+				LOGGER.info(p.getX() + " " + p.getY() + ",");
 			}
 		}
 	}

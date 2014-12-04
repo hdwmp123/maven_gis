@@ -126,11 +126,9 @@ public class GeometryUtil {
 	}
 
 	public static void main(String[] args) {
-
 		System.out.println(getLength(0, 3, 4, 0, 0, 0));// 勾股定理
 		System.out.println(getLength(3, 3, 4, 0, 0, 0));// 锐角
 		System.out.println(getLength(3, 1, 10, 0, 0, 0));// 钝角
-
 	}
 
 }
