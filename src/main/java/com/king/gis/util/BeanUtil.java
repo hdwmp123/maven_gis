@@ -1,0 +1,23 @@
+package com.king.gis.util;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class BeanUtil {
+	/**
+	 * 获取日志
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static <T> Logger getLogger(Class<T> clazz) {
+		return LoggerFactory.getLogger(clazz);
+	}
+
+	public static boolean checkDouble(double num) {
+		if (Double.isInfinite(num) || Double.isNaN(num)) {
+			return false;
+		}
+		return true;
+	}
+}
