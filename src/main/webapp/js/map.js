@@ -57,6 +57,11 @@ var _mapInit = function (arr){
 var mapInit = function(url){
 	$.get(url,function(data){
 		var arr = data;
+		console.log(typeof(arr));
+		if(typeof(arr)=='string'){
+			arr = eval('('+arr+')');
+		}
+		console.log(typeof(arr));
 		$("#pointCount").html(arr.length);
 		_mapInit(arr);
 	});
