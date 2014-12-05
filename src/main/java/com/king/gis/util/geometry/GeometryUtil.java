@@ -1,10 +1,11 @@
-package com.king.gis.util;
+package com.king.gis.util.geometry;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 
 import com.king.gis.douglas.Point;
+import com.king.gis.util.BeanUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 
 /**

@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 
 import com.king.gis.util.BeanUtil;
-import com.king.gis.util.GeometryUtil;
+import com.king.gis.util.geometry.GeometryUtil;
 
 /**
  * 
