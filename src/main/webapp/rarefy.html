@@ -5,6 +5,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script language="javascript" src="./js/jquery-1.8.3.js"></script>
 <script language="javascript" src="./js/jquery.idTabs.min.js"></script>
+<script type="text/javascript">
+	var changeTab = function(data){
+		$("#iframe").attr("src","polyline.html?type="+data);
+	}
+</script>
 <link rel="stylesheet" type="text/css" href="./css/main.css"></link>
 <link rel="stylesheet" type="text/css" href="./css/page.css"></link>
 <link rel="stylesheet" type="text/css" href="./css/chili.recipes.css"></link>
@@ -25,26 +30,14 @@
 <body>
 	<div id="usual1" class="usual">
 		<ul>
-			<li><a href="#tab1" class="selected">source</a></li>
-			<li><a href="#tab2">source2rarefy</a></li>
-			<li><a href="#tab3">rarefy2match</a></li>
-			<li><a href="#tab4">match2rarefy</a></li>
-			<li><a href="#tab5">road-ext</a></li>
+			<li><a href="#tab1" class="selected" onclick="changeTab('source')">source</a></li>
+			<li><a href="#tab1" onclick="changeTab('source2rarefy')">source2rarefy</a></li>
+			<li><a href="#tab1" onclick="changeTab('rarefy2match')">rarefy2match</a></li>
+			<li><a href="#tab1" onclick="changeTab('match2rarefy')">match2rarefy</a></li>
+			<li><a href="#tab1" onclick="changeTab('road-ext')">road-ext</a></li>
 		</ul>
 		<div id="tab1">
-			<iframe class="iframe" src="polyline.html?type=source"></iframe>
-		</div>
-		<div id="tab2">
-			<iframe class="iframe" src="polyline.html?type=source2rarefy"></iframe>
-		</div>
-		<div id="tab3">
-			<iframe class="iframe" src="polyline.html?type=rarefy2match"></iframe>
-		</div>
-		<div id="tab4">
-			<iframe class="iframe" src="polyline.html?type=match2rarefy"></iframe>
-		</div>
-		<div id="tab5">
-			<iframe class="iframe" src="polyline.html?type=road-ext"></iframe>
+			<iframe id="iframe" class="iframe" src=""></iframe>
 		</div>
 	</div>
 	<script type="text/javascript">
