@@ -8,7 +8,7 @@
 <script language="javascript" src="./js/jquery-1.8.3.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		document.location.url = "./rarefy.html";
+		window.location.href = "./rarefy.html";
 	});
 </script>
 </head>

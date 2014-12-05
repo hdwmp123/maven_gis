@@ -19,7 +19,7 @@ public class KingTest {
 	public static void main(String[] args) {
 		JsonConfig config = new JsonConfig();
 		config.setExcludes(new String[] { "z", });
-		String path = "D:/Project/myself_proX64/maven_gis/maven.1417677787248/trunk/src/main/webapp/polyline/data/%s";
+		String path = "D:/Project/myself_proX64/maven_gis/maven.1417677787248/trunk/src/main/webapp/data/%s";
 		// 原始道路
 		List<Point> source = data.getTrip(null);
 		Write2File.write2File(String.format(path, "polyline-source.json"),
