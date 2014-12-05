@@ -33,26 +33,41 @@ public class GeometryUtil {
 	 * @return
 	 */
 	public static Double calculateTheAngle(List<Point> trip, int tindex) {
-		Double angle;
-		Point aP = null;
-		Point bP = null;
-		Point cP = null;
+		Double angle = null;
+		Point pointA = null;
+		Point pointB = null;
+		Point pointC = null;
 
-		Double aL;
-		Double bL;
-		Double cL;
-		aP = trip.get(tindex - 2);
-		bP = trip.get(tindex - 1);
-		cP = trip.get(tindex);
+		pointA = trip.get(tindex - 2);
+		pointB = trip.get(tindex - 1);
+		pointC = trip.get(tindex);
 
-		aL = distance(bP, cP);
-		bL = distance(cP, aP);
-		cL = distance(aP, bP);
+		angle = getAngle(pointA, pointB, pointC);
+		return angle;
+	}
+
+	/**
+	 * 计算 线段ab与 bc的夹角
+	 * 
+	 * @param pointA
+	 * @param pointB
+	 * @param pointC
+	 * @return
+	 */
+	private static Double getAngle(Point pointA, Point pointB, Point pointC) {
+		Double angle = null;
+		Double aL = null;
+		Double bL = null;
+		Double cL = null;
+
+		aL = getDistance(pointB, pointC);
+		bL = getDistance(pointC, pointA);
+		cL = getDistance(pointA, pointB);
 
 		angle = (aL * aL + cL * cL - bL * bL) / (2 * aL * cL);
-		LOGGER.debug("夹角1:" + angle);
+		LOGGER.info(String.format("角度1:%s", angle));
 		angle = Math.acos(angle) * 180 / Math.PI;
-		LOGGER.debug("夹角2:" + angle);
+		LOGGER.info(String.format("角度2:%s", angle));
 		return angle;
 	}
 
@@ -61,7 +76,7 @@ public class GeometryUtil {
 	}
 
 	/**
-	 * 获取起始点到目标点距离
+	 * 获取起始点到目标点直线距离
 	 * 
 	 * @param start
 	 *            起始点
@@ -69,67 +84,77 @@ public class GeometryUtil {
 	 *            目标点
 	 * @return
 	 */
-	private static Double distance(Point start, Point end) {
+	private static Double getDistance(Point start, Point end) {
 		Coordinate startC = getCoordinate(start);
 		Coordinate endC = getCoordinate(end);
 		return startC.distance(endC);
 	}
 
-	// ########################################################
 	/**
-	 * 获取两个坐标之间的距离
+	 * 获取C点到到线段AB的最短距离
 	 * 
-	 * @param p1x
-	 * @param p1y
-	 * @param p2x
-	 * @param p2y
+	 * @param pointA
+	 * @param pointB
+	 * @param pointC
 	 * @return
 	 */
-	private static Double getLenWithPoints(double p1x, double p1y, double p2x,
-			double p2y) {
+	public static Double getLength(Point pointA, Point pointB, Point pointC) {
 		Double length = null;
-		length = Math.sqrt(Math.pow(p2x - p1x, 2) + Math.pow(p2y - p1y, 2));
-		return length;
-	}
 
-	/**
-	 * 获取点到线段的最短距离
-	 * 
-	 * @param lx1
-	 * @param ly1
-	 * @param lx2
-	 * @param ly2
-	 * @param px
-	 * @param py
-	 * @return
-	 */
-	public static Double getLength(double lx1, double ly1, double lx2,
-			double ly2, double px, double py) {
-		Double length = null;
-		double b = getLenWithPoints(lx1, ly1, px, py);
-		double c = getLenWithPoints(lx2, ly2, px, py);
-		double a = getLenWithPoints(lx1, ly1, lx2, ly2);
+		Double bL = getDistance(pointA, pointC);
+		Double cL = getDistance(pointB, pointC);
+		Double aL = getDistance(pointA, pointB);
 
-		if (c + b == a) {// 点在线段上
+		if (cL + bL == aL) {// 点在线段上
 			length = (double) 0;
-		} else if (c * c >= a * a + b * b) {// 钝角三角形，投影在point1延长线上，
-			length = b;
-		} else if (b * b >= a * a + c * c) {// 钝角三角形，投影在point2延长线上，
-			length = c;
+		} else if (cL * cL >= aL * aL + bL * bL) {// 钝角三角形，投影在pointA延长线上，
+			length = bL;
+		} else if (bL * bL >= aL * aL + cL * cL) {// 钝角三角形，投影在pointB延长线上，
+			length = cL;
 		} else {
 			// 组成锐角三角形，则求三角形的高
-			double p = (a + b + c) / 2;// 半周长
-			double s = Math.sqrt(p * (p - a) * (p - b) * (p - c));// 海伦公式求面积
-			length = 2 * s / a;// 返回点到线的距离（利用三角形面积公式求高）
+			double p = (aL + bL + cL) / 2;// 半周长
+			double s = Math.sqrt(p * (p - aL) * (p - bL) * (p - cL));// 海伦公式求面积
+			length = 2 * s / aL;// 返回点到线的距离（利用三角形面积公式求高）
 		}
 
 		return length;
 	}
 
 	public static void main(String[] args) {
-		System.out.println(getLength(0, 3, 4, 0, 0, 0));// 勾股定理
-		System.out.println(getLength(3, 3, 4, 0, 0, 0));// 锐角
-		System.out.println(getLength(3, 1, 10, 0, 0, 0));// 钝角
+		Double length = null;
+		Double angle = null;
+		Point pointA = null;
+		Point pointB = null;
+		Point pointC = null;
+		//
+		pointA = new Point(0, 3);
+		pointB = new Point(4, 0);
+		pointC = new Point(0, 0);
+		length = getLength(pointA, pointB, pointC);// 勾股定理
+		angle = getAngle(pointA, pointB, pointC);
+		LOGGER.info(String.format("勾股定理,距离:%s,角度:%s", length, angle));
+		//
+		pointA = new Point(0, 3);
+		pointB = new Point(3, 0);
+		pointC = new Point(0, 0);
+		length = getLength(pointA, pointB, pointC);// 等腰
+		angle = getAngle(pointA, pointB, pointC);
+		LOGGER.info(String.format("等腰,距离:%s,角度:%s", length, angle));
+		//
+		pointA = new Point(3, 3);
+		pointB = new Point(4, 0);
+		pointC = new Point(0, 0);
+		length = getLength(pointA, pointB, pointC);// 锐角
+		angle = getAngle(pointA, pointB, pointC);
+		LOGGER.info(String.format("锐角,距离 :%s,角度:%s", length, angle));
+		//
+		pointA = new Point(3, 1);
+		pointB = new Point(10, 0);
+		pointC = new Point(0, 0);
+		length = getLength(pointA, pointB, pointC);// 钝角
+		angle = getAngle(pointA, pointB, pointC);
+		LOGGER.info(String.format("钝角 ,距离:%s,角度:%s", length, angle));
 	}
 
 }
