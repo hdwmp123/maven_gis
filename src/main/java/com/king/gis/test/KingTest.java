@@ -2,8 +2,6 @@ package com.king.gis.test;
 
 import java.util.List;
 
-import org.nutz.dao.util.cri.Static;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 
@@ -21,7 +19,7 @@ public class KingTest {
 	public static void main(String[] args) {
 		JsonConfig config = new JsonConfig();
 		config.setExcludes(new String[] { "z", });
-		String path = "C:/Users/cwhl-0045/Desktop/File/polyline/data/%s";
+		String path = "D:/Project/myself_proX64/maven_gis/maven.1417677787248/trunk/src/main/webapp/polyline/data/%s";
 		// 原始道路
 		List<Point> source = data.getTrip(null);
 		Write2File.write2File(String.format(path, "polyline-source.json"),
