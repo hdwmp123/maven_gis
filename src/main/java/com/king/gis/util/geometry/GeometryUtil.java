@@ -54,7 +54,7 @@ public class GeometryUtil {
 	 * @param pointC
 	 * @return
 	 */
-	private static Double getAngle(Point pointA, Point pointB, Point pointC) {
+	public static Double getAngle(Point pointA, Point pointB, Point pointC) {
 		Double angle = null;
 		Double aL = null;
 		Double bL = null;
@@ -84,10 +84,42 @@ public class GeometryUtil {
 	 *            目标点
 	 * @return
 	 */
-	private static Double getDistance(Point start, Point end) {
+	public static Double getDistance(Point start, Point end) {
 		Coordinate startC = getCoordinate(start);
 		Coordinate endC = getCoordinate(end);
 		return startC.distance(endC);
+	}
+
+	/**
+	 * 获取起始点到目标点直线距离
+	 * 
+	 * @param start
+	 *            起始点
+	 * @param end
+	 *            目标点
+	 * @return
+	 */
+	public static Double getPoint2Line(Point point, List<Point> line) {
+		if (line == null || line.size() == 0) {
+			return new Double(0);
+		}
+		Double minDistance = 0.0;
+		Double distance = 0.0;
+		int index = 0;
+		for (int i = 0; i < line.size(); i++) {
+			Point to = line.get(i);
+			if (i == 0) {
+				minDistance = getDistance(point, to);
+				continue;
+			}
+			distance = getDistance(point, to);
+			if (distance < minDistance) {
+				index = i;
+				minDistance = distance;
+			}
+		}
+		LOGGER.info(String.format("最短距离:%s,index:%s", minDistance, index));
+		return minDistance;
 	}
 
 	/**
@@ -119,42 +151,6 @@ public class GeometryUtil {
 		}
 
 		return length;
-	}
-
-	public static void main(String[] args) {
-		Double length = null;
-		Double angle = null;
-		Point pointA = null;
-		Point pointB = null;
-		Point pointC = null;
-		//
-		pointA = new Point(0, 3);
-		pointB = new Point(4, 0);
-		pointC = new Point(0, 0);
-		length = getLength(pointA, pointB, pointC);// 勾股定理
-		angle = getAngle(pointA, pointB, pointC);
-		LOGGER.info(String.format("勾股定理,距离:%s,角度:%s", length, angle));
-		//
-		pointA = new Point(0, 3);
-		pointB = new Point(3, 0);
-		pointC = new Point(0, 0);
-		length = getLength(pointA, pointB, pointC);// 等腰
-		angle = getAngle(pointA, pointB, pointC);
-		LOGGER.info(String.format("等腰,距离:%s,角度:%s", length, angle));
-		//
-		pointA = new Point(3, 3);
-		pointB = new Point(4, 0);
-		pointC = new Point(0, 0);
-		length = getLength(pointA, pointB, pointC);// 锐角
-		angle = getAngle(pointA, pointB, pointC);
-		LOGGER.info(String.format("锐角,距离 :%s,角度:%s", length, angle));
-		//
-		pointA = new Point(3, 1);
-		pointB = new Point(10, 0);
-		pointC = new Point(0, 0);
-		length = getLength(pointA, pointB, pointC);// 钝角
-		angle = getAngle(pointA, pointB, pointC);
-		LOGGER.info(String.format("钝角 ,距离:%s,角度:%s", length, angle));
 	}
 
 }

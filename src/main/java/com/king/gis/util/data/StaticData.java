@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.king.gis.douglas.Point;
+import com.king.gis.util.data.abs.Data;
 
 public class StaticData extends Data {
 	@Override

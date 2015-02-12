@@ -10,8 +10,8 @@ import com.king.gis.douglas.Rarefy;
 import com.king.gis.ext.RoadExt;
 import com.king.gis.match.RoadMatch;
 import com.king.gis.util.Write2File;
-import com.king.gis.util.data.Data;
 import com.king.gis.util.data.StaticData;
+import com.king.gis.util.data.abs.Data;
 
 public class KingTest {
 	static Data data = new StaticData();

@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import com.king.gis.douglas.Point;
 import com.king.gis.match.RoadMatch;
 import com.king.gis.util.BeanUtil;
-import com.king.gis.util.data.Data;
 import com.king.gis.util.data.StaticData;
+import com.king.gis.util.data.abs.Data;
 
 public class RoadMatchTest {
 	public static Logger LOGGER = BeanUtil.getLogger(RoadMatchTest.class);

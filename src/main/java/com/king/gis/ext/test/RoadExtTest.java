@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import com.king.gis.ext.Point;
 import com.king.gis.ext.RoadExt;
 import com.king.gis.util.BeanUtil;
-import com.king.gis.util.data.Data;
 import com.king.gis.util.data.StaticData;
+import com.king.gis.util.data.abs.Data;
 
 public class RoadExtTest {
 	public static Logger LOGGER = BeanUtil.getLogger(RoadExtTest.class);
